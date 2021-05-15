@@ -1,0 +1,19 @@
+{
+    "Audit Log": "Phiên bản dữ liệu",
+    "User": "Người dùng",
+    "Event": "Hành động",
+    "Date/Time": "Ngày giờ",
+    "Old Values": "Giá trị cũ",
+    "New Values": "Giá trị mới",
+    "console": "console",
+    "Previous": "Lùi về",
+    "Next": "Kế tiếp",
+    "View Audit Log": "Xem phiên bản dữ liệu",
+    "Restore audit": "Khôi phục phiên bản",
+    "Field": "Field",
+    "Current": "Current",
+    "Restore to": "Restore to",
+    "No changes": "Không thay đổi",
+    "Cancel": "Hủy bỏ",
+    "Restore": "Khôi phục"
+}

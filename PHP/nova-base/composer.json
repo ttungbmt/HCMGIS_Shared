@@ -1,0 +1,69 @@
+{
+    "name": "larabase/nova-base",
+    "description": "A wonderful administration interface for Laravel.",
+    "keywords": [
+        "laravel",
+        "admin"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Truong Thanh Tung",
+            "email": "ttungbmt@gmail.com"
+        }
+    ],
+    "require": {
+        "digital-creative/collapsible-resource-manager": "^1.3",
+        "ebess/advanced-nova-media-library": "^3.6",
+        "eminiarts/nova-tabs": "^1.4",
+        "infinety-es/nova-filemanager": "^2.8",
+        "kabbouchi/nova-impersonate": "^1.5",
+        "maatwebsite/laravel-nova-excel": "^1.2",
+        "mastani/nova-password-reset": "^1.1",
+        "optimistdigital/nova-tailwind": "^1.1",
+        "optimistdigital/nova-translations-loader": "^3.1",
+        "optimistdigital/nova-multiselect-field": "^2.0",
+        "optimistdigital/nova-input-filter": "^1.0",
+        "optimistdigital/nova-multiselect-filter": "^2.0",
+        "optimistdigital/nova-menu-builder": "^5.3",
+        "owenmelbz/nova-radio-field": "^1.0",
+        "sbine/route-viewer": "^0.0.7",
+        "spatie/nova-backup-tool": "^4.1",
+        "titasgailius/search-relations": "^1.0",
+        "whitecube/nova-flexible-content": "^0.2.8",
+        "binarybuilds/nova-advanced-command-runner": "^3.0",
+        "kabbouchi/nova-logs-tool": "*@dev",
+        "bolechen/nova-activitylog": "*@dev",
+        "vyuldashev/nova-permission": "*@dev",
+        "devpartners/auditable-log": "*@dev",
+        "larabase/nova-theme": "*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larabase\\Nova\\": "src",
+            "Larabase\\NovaDatabase\\Seeders\\": "database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "optimistdigital/nova-tailwind"
+            ],
+            "providers": [
+                "Larabase\\Nova\\NovaServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ttungbmt/nova-base"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "version": "0.0.1"
+}
