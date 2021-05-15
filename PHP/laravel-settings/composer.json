@@ -1,0 +1,44 @@
+{
+    "name": "larabase/laravel-settings",
+    "description": "Store your application settings",
+    "keywords": [
+        "laravel-settings"
+    ],
+    "homepage": "https://github.com/ttungbmt/laravel-settings",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Truong Thanh Tung",
+            "email": "ttungbmt@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-json": "*",
+        "spatie/laravel-settings": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larabase\\Setting\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Larabase\\Setting\\SettingServiceProvider"
+            ],
+            "aliases": {
+                "Setting": "Larabase\\Setting\\SettingFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

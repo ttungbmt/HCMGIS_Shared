@@ -1,0 +1,40 @@
+{
+    "name": "larabase/laravel-macros",
+    "description": "A set of useful Laravel macros",
+    "keywords": [
+        "laravel-macros"
+    ],
+    "homepage": "https://github.com/ttungbmt/laravel-macros",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Truong Thanh Tung",
+            "email": "ttungbmt@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0"
+    },
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Larabase\\Macros\\": "src"
+        }
+    },
+
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Larabase\\Macros\\MacroServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
