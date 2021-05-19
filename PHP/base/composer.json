@@ -33,12 +33,6 @@
   "config": {
     "sort-packages": true
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ttungbmt/larabase"
-    }
-  ],
   "minimum-stability": "dev",
   "prefer-stable": true,
   "version": "0.0.1"

@@ -45,13 +45,8 @@ class NovaServiceProvider extends ServiceProvider
     {
         collect([
             'nova' => __DIR__ . '/../resources/lang',
-            'filemanager' => __DIR__ . '/../resources/lang/vendor/filemanager',
-            'nova-password-reset' => __DIR__ . '/../resources/lang/vendor/nova-password-reset',
-            'nova-backup-tool' => __DIR__ . '/../resources/lang/vendor/nova-backup-tool',
-            'nova-menu-builder' => __DIR__ . '/../resources/lang/vendor/nova-menu-builder',
-            'nova-auditable-log' => __DIR__ . '/../resources/lang/vendor/nova-auditable-log',
-            'advanced-nova-media-library' => __DIR__ . '/../resources/lang/vendor/advanced-nova-media-library',
-        ])->each(fn($filePath, $name) => $this->loadTranslations($filePath, $name, true));
+        ])->merge(collect(File::directories( __DIR__ . '/../resources/lang/vendor'))->mapWithKeys(fn($path) => [basename($path) => $path]))
+            ->each(fn($filePath, $name) => $this->loadTranslations($filePath, $name, true));
 
         $this->registerRoutes();
     }

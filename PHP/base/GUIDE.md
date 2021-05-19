@@ -34,11 +34,45 @@ https://github.com/anlutro/laravel-settings
 "yajra/laravel-auditable": "^4.3"
         -----
 
+
+https://github.com/ash-jc-allen/laravel-executor
+https://github.com/coderello/laravel-shared-data
+https://airephp.com/
+https://laravel-news.com/nova-repeater
+-------------
+https://laravelactions.com
+
 https://github.com/WildsideUK/Laravel-Userstamps
 https://github.com/yajra/laravel-auditable
 
-
+https://github.com/asantibanez/laravel-eloquent-state-machines
+https://github.com/haruncpi/laravel-user-activity
+https://github.com/qirolab/laravel-themer
+https://github.com/blade-ui-kit/blade-heroicons
+https://github.com/robersonfaria/laravel-database-schedule
+https://github.com/bennett-treptow/laravel-migration-generator?ref=laravelnews
+https://github.com/staudenmeir/eloquent-has-many-deep
 https://github.com/uteq/laravel-model-actions
+https://github.com/javoscript/laravel-macroable-models
+https://laravel-news.com/laravel-log-cleaner
+https://github.com/rap2hpoutre/fast-excel
+https://tailflow.github.io/laravel-orion-docs/
+https://github.com/joelbutcher/laravel-archivable
+https://github.com/bitfumes/laravel-packer
+https://github.com/asantibanez/livewire-charts
+https://github.com/mvdnbrk/laravel-model-expires
+https://github.com/f9webltd/laravel-deletable
+https://github.com/multicaret/laravel-acquaintances
+https://github.com/spatie/laravel-short-schedule
+https://github.com/spatie/laravel-cronless-schedule
+https://github.com/fruitcake/laravel-telescope-toolbar
+https://github.com/MarcinOrlowski/laravel-api-response-builder
+https://laravel-news.com/laravel-model-states
+https://github.com/illuminatech/validation-composite
+https://github.com/conedevelopment/blade-filters
+https://github.com/Qoraiche/laravel-mail-editor
+https://github.com/spatie/laravel-flash
+https://github.com/spatie/valuestore
 
 # MIGRATION
 php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="migrations"
