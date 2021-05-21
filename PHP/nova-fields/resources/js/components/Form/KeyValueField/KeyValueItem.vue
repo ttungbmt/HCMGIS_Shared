@@ -2,7 +2,7 @@
   <div v-if="isNotObject" class="flex items-center key-value-item">
     <div
         v-if="canSortRow"
-        class="flex justify-center h-11 w-11"
+        class="flex justify-center items-center h-11 w-11"
         style="left: -50px"
     >
       <button
