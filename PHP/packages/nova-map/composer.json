@@ -1,24 +1,23 @@
 {
-    "name": "larabase/nova-theme",
-    "description": "A Laravel Nova tool.",
+    "name": "larabase/nova-map",
+    "description": "A Laravel Nova card.",
     "keywords": [
         "laravel",
         "nova"
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.1.0",
-        "optimistdigital/nova-tailwind": "^1.1"
+        "php": ">=7.1.0"
     },
     "autoload": {
         "psr-4": {
-            "Larabase\\NovaTheme\\": "src/"
+            "Larabase\\Nova\\Map\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Larabase\\NovaTheme\\ThemeServiceProvider"
+                "Larabase\\Nova\\Map\\CardServiceProvider"
             ]
         }
     },

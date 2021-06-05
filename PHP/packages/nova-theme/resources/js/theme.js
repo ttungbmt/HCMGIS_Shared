@@ -1,6 +1,5 @@
 import PerfectScrollbar from 'perfect-scrollbar'
 
-
 function load() {
     // Set viewport
     let viewport = document.querySelector("meta[name=viewport]");
@@ -91,8 +90,6 @@ function load() {
         }
 
         if (Nova.config.nt.fixed_navbar) document.querySelector('.content .h-header').classList.add('sticky-navbar');
-
-        if(document.querySelector('#app-loader')) document.getElementById('app-loader').style.display = 'none'
     }
 }
 

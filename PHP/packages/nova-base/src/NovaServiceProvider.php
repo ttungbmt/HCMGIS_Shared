@@ -43,9 +43,13 @@ class NovaServiceProvider extends ServiceProvider
      */
     protected function registerResources()
     {
+        // Fix json translation not working in login page
+        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang');
+
         collect([
             'nova' => __DIR__ . '/../resources/lang',
-        ])->merge(collect(File::directories( __DIR__ . '/../resources/lang/vendor'))->mapWithKeys(fn($path) => [basename($path) => $path]))
+        ])
+            ->merge(collect(File::directories(__DIR__ . '/../resources/lang/vendor'))->mapWithKeys(fn($path) => [basename($path) => $path]))
             ->each(fn($filePath, $name) => $this->loadTranslations($filePath, $name, true));
 
         $this->registerRoutes();
@@ -59,7 +63,7 @@ class NovaServiceProvider extends ServiceProvider
     protected function registerRoutes()
     {
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         });
     }
 
@@ -120,8 +124,9 @@ class NovaServiceProvider extends ServiceProvider
 
     }
 
-    protected function registerFieldMacros(){
-        \Laravel\Nova\Fields\Field::macro('resolveUsingDefaultValue', function(NovaRequest $request){
+    protected function registerFieldMacros()
+    {
+        \Laravel\Nova\Fields\Field::macro('resolveUsingDefaultValue', function (NovaRequest $request) {
             if (is_null($this->value)) {
                 $this->value = $this->defaultCallback instanceof Closure ? call_user_func($this->defaultCallback, $request) : $this->defaultCallback;
             }

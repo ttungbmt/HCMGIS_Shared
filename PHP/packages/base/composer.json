@@ -13,9 +13,11 @@
     }
   ],
   "require": {
-      "rennokki/laravel-eloquent-query-cache": "^2.6",
-      "larabase/laravel-macros": "*@dev",
-      "owen-it/laravel-auditing": "^12.0"
+    "rennokki/laravel-eloquent-query-cache": "^2.6",
+    "larabase/laravel-macros": "*@dev",
+    "larabase/dev-tool": "*@dev",
+    "larabase/laravel-settings": "*@dev",
+    "owen-it/laravel-auditing": "^12.0"
   },
   "autoload": {
     "psr-4": {

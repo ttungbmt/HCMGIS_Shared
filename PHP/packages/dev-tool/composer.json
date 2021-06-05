@@ -1,0 +1,43 @@
+{
+    "name": "larabase/dev-tool",
+    "description": "TDev tools package for Laravel application.",
+    "keywords": ["laravel", "devtool"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Truong Thanh Tung",
+            "email": "ttungbmt@gmail.com"
+        }
+    ],
+    "require": {
+        "wikimedia/composer-merge-plugin": "^2.0",
+        "laravel/telescope": "^4.4",
+        "barryvdh/laravel-debugbar": "^3.5",
+        "barryvdh/laravel-ide-helper": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larabase\\DevTool\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Larabase\\DevTool\\DevToolServiceProvider"
+            ],
+            "dont-discover": [
+                "laravel/telescope",
+                "barryvdh/laravel-debugbar",
+                "barryvdh/laravel-ide-helper"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
