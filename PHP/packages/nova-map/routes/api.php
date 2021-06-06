@@ -12,6 +12,6 @@
 |
 */
 
-use Larabase\Nova\Map\Http\Controllers\MapController;
+use Larabase\NovaMap\Http\Controllers\MapController;
 
 Route::get('/data', MapController::class);

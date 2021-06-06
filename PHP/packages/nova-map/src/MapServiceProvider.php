@@ -1,13 +1,13 @@
 <?php
 
-namespace Larabase\Nova\Map;
+namespace Larabase\NovaMap;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
 
-class CardServiceProvider extends ServiceProvider
+class MapServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.

@@ -21,7 +21,9 @@
         "whitecube/nova-flexible-content": "^0.2.8",
         "optimistdigital/nova-translations-loader": "^3.1",
         "codenco-dev/nova-grid-system": "^1.0",
-        "larabase/nova-theme": "*@dev"
+        "larabase/nova-theme": "*@dev",
+        "degecko/nova-filters-summary": "*@dev",
+        "vyuldashev/nova-permission": "*@dev"
     },
     "autoload": {
         "psr-4": {
@@ -32,7 +34,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "optimistdigital/nova-tailwind"
+
             ],
             "providers": [
                 "Larabase\\Nova\\NovaServiceProvider"

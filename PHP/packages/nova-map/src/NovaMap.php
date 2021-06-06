@@ -1,5 +1,5 @@
 <?php
-namespace Larabase\Nova\Map;
+namespace Larabase\NovaMap;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;

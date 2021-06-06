@@ -1,8 +1,8 @@
 <?php
 
-namespace Larabase\Nova\Map\Http\Controllers;
+namespace Larabase\NovaMap\Http\Controllers;
 
-use Larabase\Nova\Map\NovaMap;
+use Larabase\NovaMap\NovaMap;
 
 class MapController
 {

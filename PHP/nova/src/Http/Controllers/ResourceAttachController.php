@@ -25,6 +25,7 @@ class ResourceAttachController extends Controller
 
         $model = $request->findModelOrFail();
 
+
         tap(new $resource($model), function ($resource) use ($request) {
             abort_unless($resource->hasRelatableField($request, $request->viaRelationship), 404);
         });

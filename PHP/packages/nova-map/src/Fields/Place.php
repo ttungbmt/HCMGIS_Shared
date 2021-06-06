@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabase\Nova\Map\Fields;
+namespace Larabase\NovaMap\Fields;
 
 use Laravel\Nova\Fields\Text;
 

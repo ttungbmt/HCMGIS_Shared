@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabase\Nova\Map;
+namespace Larabase\NovaMap;
 
 use Laravel\Nova\Card;
 

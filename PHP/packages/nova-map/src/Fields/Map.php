@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabase\Nova\Map\Fields;
+namespace Larabase\NovaMap\Fields;
 
 
 use App\Support\Helper;
@@ -24,7 +24,6 @@ class Map extends Field
         parent::__construct($name, $attribute, $resolveCallback);
 
         $request = app(NovaRequest::class);
-
 
         $this
             ->searchable()
@@ -56,21 +55,7 @@ class Map extends Field
                     'position' => 'bottomright',
                 ]
             ])
-            ->layers([
-                [
-                    'control' => 'basemap',
-                    'type' => 'tile',
-                    'title' => 'Google',
-                    'options' => ['url' => 'http://mt2.google.com/vt/lyrs=m&x={x}&y={y}&z={z}'],
-                ],
-                [
-                    'control' => 'basemap',
-                    'type' => 'tile',
-                    'title' => 'Map4D',
-                    'options' => ['url' => 'http://rtile.map4d.vn/all/2d/{z}/{x}/{y}.png'],
-                    'active' => true,
-                ],
-            ])
+            ->layers(config('nova-map.layers'))
             ->fullWidth()
             ->mapOptions(config('nova-map.config'))
             ->placeholder(__('Search'));
