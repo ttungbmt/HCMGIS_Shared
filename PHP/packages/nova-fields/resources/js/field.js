@@ -20,6 +20,12 @@ Nova.booting((Vue, router, store) => {
     Vue.component('detail-nova-url-field', require('./components/Detail/UrlField'));
     Vue.component('form-nova-url-field', require('./components/Form/UrlField/UrlField'));
 
-    Vue.component('detail-nova-key-value-field', require('./components/Detail/KeyValueField.vue'))
-    Vue.component('form-nova-key-value-field', require('./components/Form/KeyValueField/KeyValueField.vue'))
+    Vue.component('detail-nova-key-value-field', require('./components/Detail/KeyValueField'))
+    Vue.component('form-nova-key-value-field', require('./components/Form/KeyValueField/KeyValueField'))
+
+    Vue.component('index-html-field', require('./components/Form/HtmlField'));
+    Vue.component('detail-html-field', require('./components/Form/HtmlField'));
+    Vue.component('form-html-field', require('./components/Form/HtmlField'));
+
+    Vue.component('response-excel-modal', require('./components/Modals/ResponseExcelModal'))
 })

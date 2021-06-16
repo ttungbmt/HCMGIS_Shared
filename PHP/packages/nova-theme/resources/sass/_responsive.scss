@@ -115,7 +115,7 @@ html[dir="rtl"] .hamburger-menu:before {
     .w-sidebar {
         position: fixed;
         padding-top: 3.5rem !important;
-        z-index: 1000;
+        z-index: 1000!important;
         height: 100%;
         overflow: auto;
     }
@@ -125,12 +125,12 @@ html[dir="rtl"] .hamburger-menu:before {
     }
 
     .sidebar-hidden {
-        display: none;
+        display: none!important;
     }
 
     /* Header */
     .h-header {
-        z-index: 1000;
+        z-index: 1000!important;
         position: fixed;
         width: 100%;
         margin-top: -3.75rem;

@@ -3,6 +3,7 @@
 namespace Epartment\NovaDependencyContainer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Support\Str;
@@ -182,10 +183,19 @@ class NovaDependencyContainer extends Field
             }
 
             if (array_key_exists('value', $dependency)) {
-                if ($dependency['value'] == $value) {
-                    $this->meta['dependencies'][$index]['satisfied'] = true;
-                    continue;
+                if(is_array($value) || $value instanceof Collection){
+                    $ids = collect($value)->pluck('id');
+                    if($ids->intersect((array)$dependency['value'])->isNotEmpty()){
+                        $this->meta['dependencies'][$index]['satisfied'] = true;
+                        continue;
+                    }
+                } else {
+                    if ($dependency['value'] == $value) {
+                        $this->meta['dependencies'][$index]['satisfied'] = true;
+                        continue;
+                    }
                 }
+
                 // @todo: quickfix for MorphTo
                 $morphable_attribute = $resource->getAttribute($dependency['property'].'_type');
                 if ($morphable_attribute !== null && Str::endsWith($morphable_attribute, '\\'.$dependency['value'])) {

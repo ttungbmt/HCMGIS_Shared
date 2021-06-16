@@ -1,4 +1,5 @@
 {
+    "There was an error on row :row. :message": "Đã xảy ra lỗi ở hàng :row. :message",
     "Set Status": "Đặt trạng thái",
     "Status": "Trạng thái",
     "Note": "Ghi chú",

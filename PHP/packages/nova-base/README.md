@@ -1,19 +1,79 @@
-optimistdigital/nova-tailwind conflict responsive theme
+https://novapackages.com/?tag=all&page=57
 
---------------------------
-"infinety-es/nova-filemanager": "^2.8",
-"kabbouchi/nova-impersonate": "^1.5",
-"mastani/nova-password-reset": "^1.1",
-"optimistdigital/nova-tailwind": "^1.1",
-"optimistdigital/nova-multiselect-field": "^2.0",
-"optimistdigital/nova-input-filter": "^1.0",
-"optimistdigital/nova-multiselect-filter": "^2.0",
-"optimistdigital/nova-menu-builder": "^5.3",
-"owenmelbz/nova-radio-field": "^1.0",
-"sbine/route-viewer": "^0.0.7",
-"spatie/nova-backup-tool": "^4.1",
-"binarybuilds/nova-advanced-command-runner": "^3.0",
-"kabbouchi/nova-logs-tool": "*@dev",
-"bolechen/nova-activitylog": "*@dev",
-"vyuldashev/nova-permission": "*@dev",
-"devpartners/auditable-log": "*@dev",
+# IMPORTANT
+https://novapackages.com/packages/ampeco/nova-date-range-filter
+https://novapackages.com/packages/simonhamp/laravel-nova-csv-import
+https://novapackages.com/packages/mirovit/nova-notifications
+https://novapackages.com/packages/codenco-dev/nova-grid-system
+https://novapackages.com/packages/gobrightspot/nova-detached-actions
+https://novapackages.com/packages/izi-dev/nova-key-value-suggestion-field
+https://novapackages.com/packages/ganyicz/nova-temporary-fields
+https://novapackages.com/packages/ganyicz/nova-callbacks
+https://novapackages.com/packages/optimistdigital/nova-input-filter
+https://novapackages.com/packages/lhilton/text-auto-complete
+https://novapackages.com/packages/optimistdigital/nova-simple-repeatable
+https://novapackages.com/packages/mastani/nova-password-reset
+https://novapackages.com/packages/optimistdigital/nova-detached-filters
+https://novapackages.com/packages/optimistdigital/nova-table-field
+https://novapackages.com/packages/thijssimonis/nova-list-card
+https://novapackages.com/packages/elipzis/nova-embed-card
+https://novapackages.com/packages/binarybuilds/nova-advanced-command-runner
+https://novapackages.com/packages/jeffbeltran/sanctum-tokens
+https://novapackages.com/packages/ynacorp/nova-swatches
+https://novapackages.com/packages/pdmfc/nova-info-card
+https://novapackages.com/packages/devpartners/auditable-log
+https://novapackages.com/packages/optimistdigital/nova-sortable
+https://novapackages.com/packages/digital-creative/clickable-table-row
+https://novapackages.com/packages/digital-creative/nova-inline-morph-to
+https://novapackages.com/packages/optimistdigital/nova-notes-field
+https://novapackages.com/packages/genealabs/nova-passport-manager
+https://novapackages.com/packages/idf/nova-html-card
+https://novapackages.com/packages/wemersonrv/input-mask
+
+# RECODE
+https://novapackages.com/packages/hubertnnn/laravel-nova-field-dynamic-select
+https://novapackages.com/packages/dillingham/nova-detail-link
+https://novapackages.com/packages/digital-creative/resource-navigation-tab
+https://novapackages.com/packages/klepak/nova-router-link
+https://novapackages.com/packages/razorcreations/ajax-field
+https://novapackages.com/packages/ibrahem-kamal/json-field
+https://novapackages.com/packages/naoray/nova-json
+https://novapackages.com/packages/armincms/json
+https://novapackages.com/packages/digital-creative/nova-json-wrapper
+https://novapackages.com/packages/simplesquid/nova-advanced-number-field
+https://novapackages.com/packages/rimu/formatted-number
+https://novapackages.com/packages/digital-creative/custom-relationship-field
+https://novapackages.com/packages/digital-creative/nova-apex-chart
+https://novapackages.com/packages/suenerds/nova-searchable-belongs-to-filter
+https://novapackages.com/packages/flagstudio/nova-actions-left
+https://novapackages.com/packages/opanegro/nova-custom-controller
+https://novapackages.com/packages/decency/nova-input-group
+https://novapackages.com/packages/digital-creative/conditional-container
+https://novapackages.com/packages/dddeeemmmooonnn/nova-multicolumn-filter
+https://novapackages.com/packages/mattsplat/readmore
+https://novapackages.com/packages/ericlagarda/nova-gallery
+https://novapackages.com/packages/vyuldashev/nova-column-filter
+https://novapackages.com/packages/khalin/nova-link-field
+
+# NEED
+https://github.com/czemu/nova-calendar-tool
+https://novapackages.com/packages/digital-creative/resource-navigation-link
+https://novapackages.com/packages/slash2nl/nova-back-button
+https://novapackages.com/packages/allanvb/nova-exports
+https://novapackages.com/packages/bernhardh/nova-icon-select
+https://novapackages.com/packages/brilliant-packages/nova-relationships-link-list
+https://novapackages.com/packages/php-junior/nova-quick-view
+https://novapackages.com/packages/eolica/nova-locale-switcher
+https://novapackages.com/packages/laramaker/redirect-after-asset
+https://novapackages.com/packages/miljoen/nova-autofill
+https://novapackages.com/packages/day4/cloudinary
+https://novapackages.com/packages/coroowicaksono/nova-carousel
+https://novapackages.com/packages/digital-creative/nova-range-input-filter
+https://novapackages.com/packages/digital-creative/nova-slider-filter
+https://novapackages.com/packages/kosmoskosmos/rating
+https://novapackages.com/packages/e2consult/novachecklists
+https://novapackages.com/packages/Signifly/nova-progressbar-field
+https://novapackages.com/packages/radwanic/resource-listing
+https://novapackages.com/packages/kirschbaum-development/nova-comments
+https://novapackages.com/packages/advoor/nova-resource-field
+https://novapackages.com/packages/classic-o/nova-media-library

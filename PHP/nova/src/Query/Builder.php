@@ -43,6 +43,13 @@ class Builder implements QueryBuilder
     protected $queryCallbacks = [];
 
     /**
+     * Determine query callbacks has been applied.
+     *
+     * @var bool
+     */
+    protected $appliedQueryCallbacks = false;
+
+    /**
      * Construct a new query builder for a resource.
      *
      * @param  string  $resource
@@ -273,6 +280,10 @@ class Builder implements QueryBuilder
      */
     protected function applyQueryCallbacks($queryBuilder)
     {
+        if ($this->appliedQueryCallbacks === true) {
+            return $queryBuilder;
+        }
+
         $callback = function ($queryBuilder) {
             collect($this->queryCallbacks)
                 ->filter()
@@ -286,6 +297,8 @@ class Builder implements QueryBuilder
         } else {
             $queryBuilder->tap($callback);
         }
+
+        $this->appliedQueryCallbacks = true;
 
         return $queryBuilder;
     }
