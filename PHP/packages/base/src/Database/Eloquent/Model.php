@@ -1,10 +1,18 @@
 <?php
 namespace Larabase\Database\Eloquent;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use \Yajra\Auditable\AuditableTrait as Blameable;
+use Larabase\Database\Eloquent\Relations\HasMany;
+use Larabase\Database\Eloquent\Relations\HasOne;
 
 class Model extends \Illuminate\Database\Eloquent\Model
 {
-    use HasFactory, Blameable;
+    protected function newHasMany(\Illuminate\Database\Eloquent\Builder $query, \Illuminate\Database\Eloquent\Model $parent, $foreignKey, $localKey)
+    {
+        return new HasMany($query, $parent, $foreignKey, $localKey);
+    }
+
+    protected function newHasOne(\Illuminate\Database\Eloquent\Builder $query, \Illuminate\Database\Eloquent\Model $parent, $foreignKey, $localKey)
+    {
+        return new HasOne($query, $parent, $foreignKey, $localKey);
+    }
 }

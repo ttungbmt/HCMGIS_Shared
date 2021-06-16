@@ -17,9 +17,13 @@
     "larabase/laravel-macros": "*@dev",
     "larabase/dev-tool": "*@dev",
     "larabase/laravel-settings": "*@dev",
-    "owen-it/laravel-auditing": "^12.0"
+    "owen-it/laravel-auditing": "^12.0",
+    "spatie/laravel-schemaless-attributes": "^1.8"
   },
   "autoload": {
+    "files": [
+      "src/Support/helpers.php"
+    ],
     "psr-4": {
       "Larabase\\": "src/"
     }
