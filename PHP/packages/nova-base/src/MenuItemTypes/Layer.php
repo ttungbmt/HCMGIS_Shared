@@ -1,7 +1,7 @@
 <?php
 namespace Larabase\Nova\MenuItemTypes;
 
-use App\Models\MapLayer;
+use Larabase\Nova\Models\MapLayer;
 use Laravel\Nova\Fields\Boolean;
 use OptimistDigital\MenuBuilder\MenuItemTypes\MenuItemSelectType;
 
