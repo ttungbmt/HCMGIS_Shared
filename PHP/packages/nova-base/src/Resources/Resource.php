@@ -1,13 +1,14 @@
 <?php
 namespace Larabase\Nova\Resources;
 
-
-use ChrisWare\NovaBreadcrumbs\Traits\Breadcrumbs;
+use Ganyicz\NovaCallbacks\HasCallbacks;
 use Laravel\Nova\Resource as NovaResource;
 
 abstract class Resource extends NovaResource
 {
-    use Breadcrumbs;
+    use HasCallbacks;
+
+    public static $dirs = [];
 
     public static function group()
     {

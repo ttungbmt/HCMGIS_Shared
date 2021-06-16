@@ -23,7 +23,9 @@
         "codenco-dev/nova-grid-system": "^1.0",
         "larabase/nova-theme": "*@dev",
         "degecko/nova-filters-summary": "*@dev",
-        "vyuldashev/nova-permission": "*@dev"
+        "vyuldashev/nova-permission": "*@dev",
+        "ganyicz/nova-callbacks": "^1.1",
+        "ganyicz/nova-temporary-fields": "^1.1"
     },
     "autoload": {
         "psr-4": {
