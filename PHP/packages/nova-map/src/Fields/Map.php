@@ -120,7 +120,18 @@ class Map extends Field
     {
         if($searchable == false) return $this->withMeta([__FUNCTION__ => false]);
 
-        return $this->withMeta([__FUNCTION__ => $searchable === true ? Place::make(__('Search'), 'search')->searchProvider('map4d') : $searchable]);
+        return $this->withMeta([__FUNCTION__ => $searchable === true ? $this->getDefaultSearchField() : $searchable]);
+    }
+
+    public function getDefaultSearchField(){
+        $config = collect(config('nova-map.search'));
+
+        $field = Place::make(__('Search'), 'search')->searchProvider($config->get('provider', 'google'));
+
+        if($key = $config->get('key')) $field = $field->searchProviderKey($key);
+        if($params = $config->get('params')) $field = $field->searchParams($params);
+
+        return $field;
     }
 
     protected function resolveAttribute($resource, $attribute)
