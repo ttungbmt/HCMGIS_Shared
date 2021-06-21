@@ -77,6 +77,7 @@ class ExportExcel extends DownloadExcel implements ShouldAutoSize, WithColumnFor
         $model->setHidden([]);
 
         $resource = $this->resolveResource($model);
+        // Support: fieldsForExport
         $fields = $this->resourceFields($resource);
 
         $fields->whereInstanceOf(Serial::class)->each(function ($field) use ($key) {

@@ -82,8 +82,7 @@ class Map extends Field
 
                     if(method_exists($model, 'getPostgisType')){
                         $spatialType = $model->getPostgisType('geom')['type'];
-
-                        if ($spatialType === 'Point') {
+                        if ($spatialType === 'Point' && $r->data && $r->data[0] && $r->data[1]) {
                             $data = new Point($r->data[0], $r->data[1]);
                         }
                     } else {
