@@ -1,0 +1,19 @@
+@import "popup";
+
+.leaflet-container {
+  cursor: inherit;
+  background: white;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.leaflet-buttons-control-button{
+  outline: none;
+}
+
+.extra-marker-icon {
+  padding-top: 1px;
+  padding-left: 0.2px;
+}

@@ -130,6 +130,7 @@ class Map extends Field
 
         if($key = $config->get('key')) $field = $field->searchProviderKey($key);
         if($params = $config->get('params')) $field = $field->searchParams($params);
+        if($options = $config->get('options')) $field = $field->searchOptions($options);
 
         return $field;
     }

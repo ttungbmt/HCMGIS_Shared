@@ -48,11 +48,11 @@ export default {
   },
 
   created() {
-    const {searchProvider, searchProviderKey, searchParams = {}, debounce = 500} = this.field
+    const {searchProvider, searchProviderKey, searchParams = {}, searchOptions = {}, debounce = 500} = this.field
 
     this.debouncer = _.debounce(callback => callback(), debounce)
 
-    const providerOptions = {params: searchParams};
+    const providerOptions = {...searchOptions, params: searchParams};
 
     if (typeof searchProviderKey !== 'undefined') {
       providerOptions.params.key = searchProviderKey

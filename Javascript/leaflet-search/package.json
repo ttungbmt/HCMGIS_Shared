@@ -1,6 +1,6 @@
 {
   "name": "@ttungbmt/leaflet-search",
-  "version": "1.0.0+0d8337a2",
+  "version": "1.0.0",
   "description": "Adds support for address lookup (a.k.a. geocoding / geoseaching) to Leaflet.",
   "publishConfig": {
     "tag": "latest"
@@ -43,10 +43,7 @@
     "leaflet-geosearch": "^3.2.2",
     "lodash-es": "^4.17.21"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "yalcSig": "0d8337a22b5531373a304f7e94a05f94"
+  "devDependencies": {
+    "microbundle": "^0.13.3"
+  }
 }

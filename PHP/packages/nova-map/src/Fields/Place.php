@@ -35,6 +35,11 @@ class Place extends Text
         return $this->withMeta([__FUNCTION__ => $provider]);
     }
 
+    public function searchOptions(array $options)
+    {
+        return $this->withMeta([__FUNCTION__ => $options]);
+    }
+
     public function searchParams(array $field)
     {
         return $this->withMeta([__FUNCTION__ => $field]);
