@@ -125,6 +125,7 @@ class Map extends Field
 
     protected function resolveAttribute($resource, $attribute)
     {
+        $geom = data_get($resource, str_replace('->', '.', $attribute));
         if(method_exists($resource, 'getPostgisType')){
             $spatialType = $resource->getPostgisType('geom')['type'];
 
@@ -133,7 +134,7 @@ class Map extends Field
             if ($spatialType === 'Point') {
                 !$this->dirtyDrawEditor && $this->setMarkerEditor();
 
-                $latlng = $resource->geom ? [$resource->geom->getLat(), $resource->geom->getLng()] : [];
+                $latlng =  $geom ? [$geom->getLat(), $geom->getLng()] : [];
                 if ($this->meta['mapOptions']['zoom'] == config('nova-map.config.zoom') && !empty($latlng)) {
                     $this->center($latlng);
                     $this->zoom(14);
@@ -142,19 +143,19 @@ class Map extends Field
                 return [
                     [
                         'type' => 'marker',
-                        'data' => $resource->geom ? [$resource->geom->getLat(), $resource->geom->getLng()] : [],
+                        'data' => $geom ? [$geom->getLat(), $geom->getLng()] : [],
                         'geom_field' => $attribute,
                         'active' => true
                     ]
                 ];
             } elseif (in_array($spatialType, ['MultiPolygon', 'Polygon'])) {
                 !$this->dirtyDrawEditor && $this->setPolygonEditor();
-                if (!isset($this->meta['mapOptions']['bounds'])) $this->bounds($resource->geom);
+                if (!isset($this->meta['mapOptions']['bounds'])) $this->bounds($geom);
 
                 return [
                     [
                         'type' => 'geojson',
-                        'data' => $resource->geom,
+                        'data' => $geom,
                         'geom_field' => $attribute,
                         'active' => true
                     ]
