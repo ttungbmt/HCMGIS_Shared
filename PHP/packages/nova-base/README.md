@@ -31,6 +31,7 @@ https://novapackages.com/packages/idf/nova-html-card
 https://novapackages.com/packages/wemersonrv/input-mask
 
 # RECODE
+https://github.com/mattsplat/readmore
 https://novapackages.com/packages/hubertnnn/laravel-nova-field-dynamic-select
 https://novapackages.com/packages/dillingham/nova-detail-link
 https://novapackages.com/packages/digital-creative/resource-navigation-tab

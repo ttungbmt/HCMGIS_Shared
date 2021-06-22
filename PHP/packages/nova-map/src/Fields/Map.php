@@ -149,7 +149,7 @@ class Map extends Field
                 $latlng =  $geom ? [$geom->getLat(), $geom->getLng()] : [];
                 if ($this->meta['mapOptions']['zoom'] == config('nova-map.config.zoom') && !empty($latlng)) {
                     $this->center($latlng);
-                    $this->zoom(14);
+                    $this->zoom(15);
                 }
 
                 return [

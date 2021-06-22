@@ -16,14 +16,14 @@
                  v-for="filter in activeFilters">
                 <template v-if="card.stacked">
                     <div class="p-1">
-                        <div class="text-sm font-bold mb-1">{{ filter.name }}</div>
+                        <div class="text-sm font-bold mb-1 flex">{{ filter.name }}</div>
                         <div v-html="filter.summary"></div>
                     </div>
                 </template>
 
                 <template v-else>
                     <div class="pl-2">{{ filter.name }}:</div>
-                    <div class="ml-2 font-bold" v-html="filter.summary"></div>
+                    <div class="ml-2 font-bold flex" v-html="filter.summary"></div>
                 </template>
 
                 <div class="ml-2">
@@ -115,6 +115,11 @@ export default {
                         filter.summary = Nova.filtersSummaryResolvers[filter.component](filter)
                     }
 
+                    else if (filter.component === 'date-range-filter') {
+                        filter.summary = filter.currentValue.join(
+                            `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 self-center mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /> </svg>`
+                        ) || 'N/A'
+                    }
                     else if (filter.component === 'nova-multiselect-filter') {
                         filter.summary = filter.options
                             .filter(o => _.includes(filter.currentValue.map(v => this.nin(v)), this.nin(o.value))).map(v => v.label).join(', ')

@@ -25,7 +25,8 @@
         "degecko/nova-filters-summary": "*@dev",
         "vyuldashev/nova-permission": "*@dev",
         "ganyicz/nova-callbacks": "^1.1",
-        "ganyicz/nova-temporary-fields": "^1.1"
+        "ganyicz/nova-temporary-fields": "^1.1",
+        "ampeco/nova-date-range-filter": "^0.1.2"
     },
     "autoload": {
         "psr-4": {

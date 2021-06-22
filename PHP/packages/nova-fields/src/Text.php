@@ -3,6 +3,7 @@ namespace Larabase\NovaFields;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Text extends \Laravel\Nova\Fields\Text
 {
