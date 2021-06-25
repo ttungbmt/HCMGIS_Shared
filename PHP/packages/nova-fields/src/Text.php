@@ -12,7 +12,7 @@ class Text extends \Laravel\Nova\Fields\Text
     public $component = 'nova-text-field';
 
     public function limit($words = 100, $end = '...', $disableOnActions = []){
-        !in_array(request()->get('action'), $disableOnActions) && $this->displayUsing(fn ($value) => Str::words($value, $words, $end));
+        !in_array(request()->get('action'), $disableOnActions) && $words && $this->displayUsing(fn ($value) => Str::words($value, $words, $end));
         return $this;
     }
 
