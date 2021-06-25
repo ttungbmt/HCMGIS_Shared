@@ -12,7 +12,7 @@ use Timothyasp\Color\Color;
 
 class AppearanceSetting extends Template
 {
-    public $settingClass = \App\Settings\Appearance::class;
+    public $settingClass = \Larabase\Settings\Appearance::class;
 
     public static $path = 'appearance';
 

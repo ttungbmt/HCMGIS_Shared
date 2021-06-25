@@ -14,4 +14,8 @@ abstract class Resource extends NovaResource
     {
         return __(static::$group);
     }
+
+    protected static function policyKey(){
+        return (new static::$model)->getTable();
+    }
 }

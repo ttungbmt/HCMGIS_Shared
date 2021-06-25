@@ -18,7 +18,8 @@
     "larabase/dev-tool": "*@dev",
     "larabase/laravel-settings": "*@dev",
     "owen-it/laravel-auditing": "^12.0",
-    "spatie/laravel-schemaless-attributes": "^1.8"
+    "spatie/laravel-schemaless-attributes": "^1.8",
+    "spatie/laravel-query-builder": "^3.4"
   },
   "autoload": {
     "files": [
