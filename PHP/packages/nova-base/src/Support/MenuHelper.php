@@ -1,4 +1,5 @@
 <?php
+
 namespace Larabase\Nova\Support;
 
 use DigitalCreative\CollapsibleResourceManager\CollapsibleResourceManager;
@@ -6,7 +7,10 @@ use DigitalCreative\CollapsibleResourceManager\Resources\ExternalLink;
 use DigitalCreative\CollapsibleResourceManager\Resources\InternalLink;
 use DigitalCreative\CollapsibleResourceManager\Resources\RawResource;
 use DigitalCreative\CollapsibleResourceManager\Resources\TopLevelResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Larabase\Nova\MenuItemTypes\InternalUrl;
 use Larabase\Nova\MenuItemTypes\Resource;
 use Larabase\Nova\MenuItemTypes\Tool;
@@ -16,7 +20,8 @@ use Spatie\Permission\PermissionRegistrar;
 
 class MenuHelper
 {
-    public static function getTools(){
+    public static function getTools()
+    {
         $adminMenus = MenuHelper::getAdminMenus();
         $navigationItems = MenuHelper::getAdminNavigation($adminMenus);
 
@@ -36,8 +41,14 @@ class MenuHelper
     {
         $tools = [];
 
-        foreach ($menuItems as $i) {
-            if ($i['type'] === Tool::getIdentifier() && $i['enabled']) $tools[] = $i['tool'] ?? new $i['value'];
+        foreach ($menuItems as $k => $i) {
+            if ($i['type'] === Tool::getIdentifier() && $i['enabled']) {
+                $tools[$k] = $i['tool'] ?? new $i['value'];
+
+                if($i['value'] === 'Larabase\NovaPage\NovaPage'){
+                    $tools[$k] =  $tools[$k]->canSee(fn(Request $request) => Gate::allows('nova-page:view', $request->segment(3)));
+                }
+            }
             if ($i['children']) $tools = array_merge($tools, static::getMenuTools($i['children']));
         }
 
@@ -47,26 +58,33 @@ class MenuHelper
     public static function getAdminMenus()
     {
         $slug = 'admin';
-        $adminMenus = Cache::remember('menus.'.$slug, 2*24*60*60, fn() => data_get(nova_get_menu_by_slug($slug), 'menuItems', []));
+        $adminMenus = Cache::remember('menus.' . $slug, 2 * 24 * 60 * 60, fn() => data_get(nova_get_menu_by_slug($slug), 'menuItems', []));
 //        return self::formatMenus(data_get(nova_get_menu_by_slug('admin'), 'menuItems', []));
         return self::formatMenus($adminMenus);
     }
 
-    public static function formatMenus($menus){
+    public static function formatMenus($menus)
+    {
         $data = [];
-        foreach ($menus as $k => $i){
+        foreach ($menus as $k => $i) {
             $data[$k] = $i;
 
-            if($i['type'] === Tool::getIdentifier()){
-                $ability = data_get(Tool::mappingTools(), $i['value'].'.ability');
+            if ($i['type'] === Tool::getIdentifier()) {
+                $ability = data_get(Tool::mappingTools(), $i['value'] . '.ability');
                 $permissions = app(PermissionRegistrar::class)->getPermissions();
-                if($ability && !$permissions->filter(fn($m) => $m->name === $ability)->isEmpty()){
+                if ($ability && !$permissions->filter(fn($m) => $m->name === $ability)->isEmpty()) {
                     $data[$k]['tool'] = (new $i['value'])->canSeeWhen($ability);
                     $data[$k]['enabled'] = $i['enabled'] && $data[$k]['tool']->authorize(app(NovaRequest::class));
                 }
             }
 
-            if($i['children']) $data[$k]['children'] = self::formatMenus($i['children']);
+            $url = data_get($i, 'data.url');
+            if($i['type'] === 'internal-url' && $url && Str::contains($url, '/nova-page/')){
+                $name = last(explode('/', $url));
+                $data[$k]['enabled'] = Gate::allows('nova-page:view', $name);
+            }
+
+            if ($i['children']) $data[$k]['children'] = self::formatMenus($i['children']);
         }
 
         return collect($data);
@@ -128,7 +146,8 @@ class MenuHelper
         })->filter();
     }
 
-    public static function getSidebarTools(){
+    public static function getSidebarTools()
+    {
         $menuTools = collect(MenuHelper::getMenuTools(MenuHelper::getAdminMenus()))->map(fn($t) => get_class($t))->all();
         $novaTools = \Laravel\Nova\Nova::availableTools(request());
         return collect($novaTools)->filter(fn($i) => !in_array(get_class($i), $menuTools));
