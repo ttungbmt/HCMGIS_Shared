@@ -15,4 +15,8 @@ class Model extends \Illuminate\Database\Eloquent\Model
     {
         return new HasOne($query, $parent, $foreignKey, $localKey);
     }
+
+    public static function table(){
+        return with(new static)->table;
+    }
 }
