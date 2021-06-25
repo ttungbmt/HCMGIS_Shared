@@ -2,7 +2,7 @@
 
 namespace Larabase\Setting\Pages;
 
-use App\Settings\General;
+use Larabase\Settings\General;
 use DateTimeZone;
 use Larabase\NovaFields\Radio;
 use Laravel\Nova\Fields\Boolean;

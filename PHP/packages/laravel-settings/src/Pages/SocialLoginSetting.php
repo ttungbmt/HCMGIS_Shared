@@ -7,7 +7,7 @@ use Laravel\Nova\Fields\Text;
 
 class SocialLoginSetting extends Template
 {
-    public $settingClass = \App\Settings\SocialLogin::class;
+    public $settingClass = \Larabase\Settings\SocialLogin::class;
 
     public static $path = 'social-login';
 

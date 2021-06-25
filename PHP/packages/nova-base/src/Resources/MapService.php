@@ -35,7 +35,7 @@ class MapService extends Resource
         'name',
     ];
 
-    public static $dir = [
+    public static $dirs = [
         'types' => [
             'AUTO' => 'Auto-detect',
             'AJAX' => 'Ajax Layer',
@@ -63,7 +63,7 @@ class MapService extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Select::make('Type', 'type')->options(static::$dir['types'])->displayUsingLabels()->default('AUTO'),
+            Select::make('Type', 'type')->options(static::$dirs['types'])->displayUsingLabels()->default('AUTO'),
             Text::make(__('Name'), 'name')->sortable()->rules('required'),
             Text::make(__('Description'), 'description')->hideFromIndex(),
             Text::make(__('Url'), 'base_url')->displayUsing(function ($value){

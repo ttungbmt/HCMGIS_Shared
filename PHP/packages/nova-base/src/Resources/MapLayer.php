@@ -4,6 +4,7 @@ namespace Larabase\Nova\Resources;
 
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Larabase\NovaFields\Integer;
 use Larabase\NovaFields\KeyValue;
 use Larabase\NovaFields\Radio;
@@ -33,8 +34,6 @@ class MapLayer extends Resource
      */
     public static $title = 'name';
 
-    public static $dir = [];
-
     /**
      * The columns that should be searched.
      *
@@ -48,8 +47,8 @@ class MapLayer extends Resource
     {
         parent::__construct($resource);
 
-        static::$dir['services'] = \Larabase\Nova\Models\MapService::pluck('name', 'id');
-        static::$dir['srv_ids'] = \Larabase\Nova\Models\MapService::whereIn('type', ['OWS', 'WMS', 'WMTS'])->pluck('id');
+        static::$dirs['services'] = \Larabase\Nova\Models\MapService::pluck('name', 'id');
+        static::$dirs['srv_ids'] = \Larabase\Nova\Models\MapService::whereIn('type', ['OWS', 'WMS', 'WMTS'])->pluck('id');
     }
 
 
@@ -67,12 +66,12 @@ class MapLayer extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Name', 'name'),
 
-            Select::make('Service', 'data->service')->options(static::$dir['services'])->displayUsingLabels()->nullable(),
+            Select::make('Service', 'data->service')->options(static::$dirs['services'])->displayUsingLabels()->nullable(),
 
             Radio::make('Control', 'data->control')->options(['basemap' => 'Basemap', 'overlay' => 'Overlay'])->rules('required'),
 
             NovaDependencyContainer::make([
-                Select::make('Type', 'data->type')->options(MapService::$dir['types'])->displayUsingLabels()->rules('required_if:data->service,null'),
+                Select::make('Type', 'data->type')->options(MapService::$dirs['types'])->displayUsingLabels()->rules('required_if:data->service,null'),
                 NovaDependencyContainer::make([
                     Text::make('Url', 'url'),
                     Text::make('Layers', 'options->layers'),
@@ -89,7 +88,7 @@ class MapLayer extends Resource
                 Number::make('Opacity', 'opacity')->min(0)->max(1)->step(1e-3),
                 Select::make('Format', 'format')->options(array_combine($formats, $formats)),
                 Boolean::make('Transparent', 'transparent'),
-            ])->dependsOnInclude('data->service', static::$dir['srv_ids']),
+            ])->dependsOnInclude('data->service', static::$dirs['srv_ids']),
 
             KeyValue::make('Options', 'options')
                 ->resolveUsing(function ($value) {

@@ -11,7 +11,7 @@ use Laravel\Nova\Fields\Text;
 
 class EmailSetting extends Template
 {
-    public $settingClass = \App\Settings\Email::class;
+    public $settingClass = \Larabase\Settings\Email::class;
 
     public static $path = 'email';
 
