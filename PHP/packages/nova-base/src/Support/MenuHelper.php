@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Cache;
 use Larabase\Nova\MenuItemTypes\InternalUrl;
 use Larabase\Nova\MenuItemTypes\Resource;
 use Larabase\Nova\MenuItemTypes\Tool;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MenuBuilder\MenuItemTypes\MenuItemStaticURLType;
+use Spatie\Permission\PermissionRegistrar;
 
 class MenuHelper
 {
@@ -18,7 +20,7 @@ class MenuHelper
         $adminMenus = MenuHelper::getAdminMenus();
         $navigationItems = MenuHelper::getAdminNavigation($adminMenus);
 
-        $toolItems = collect(MenuHelper::getMenuTools($adminMenus))->map(fn($i) => new $i);
+        $toolItems = MenuHelper::getMenuTools($adminMenus);
 
         return collect([
             new CollapsibleResourceManager([
@@ -35,7 +37,7 @@ class MenuHelper
         $tools = [];
 
         foreach ($menuItems as $i) {
-            if ($i['type'] === Tool::getIdentifier() && $i['enabled']) $tools[] = $i['value'];
+            if ($i['type'] === Tool::getIdentifier() && $i['enabled']) $tools[] = $i['tool'] ?? new $i['value'];
             if ($i['children']) $tools = array_merge($tools, static::getMenuTools($i['children']));
         }
 
@@ -46,8 +48,28 @@ class MenuHelper
     {
         $slug = 'admin';
         $adminMenus = Cache::remember('menus.'.$slug, 2*24*60*60, fn() => data_get(nova_get_menu_by_slug($slug), 'menuItems', []));
-//        return data_get(nova_get_menu_by_slug('admin'), 'menuItems', []);
-        return $adminMenus;
+//        return self::formatMenus(data_get(nova_get_menu_by_slug('admin'), 'menuItems', []));
+        return self::formatMenus($adminMenus);
+    }
+
+    public static function formatMenus($menus){
+        $data = [];
+        foreach ($menus as $k => $i){
+            $data[$k] = $i;
+
+            if($i['type'] === Tool::getIdentifier()){
+                $ability = data_get(Tool::mappingTools(), $i['value'].'.ability');
+                $permissions = app(PermissionRegistrar::class)->getPermissions();
+                if($ability && !$permissions->filter(fn($m) => $m->name === $ability)->isEmpty()){
+                    $data[$k]['tool'] = (new $i['value'])->canSeeWhen($ability);
+                    $data[$k]['enabled'] = $i['enabled'] && $data[$k]['tool']->authorize(app(NovaRequest::class));
+                }
+            }
+
+            if($i['children']) $data[$k]['children'] = self::formatMenus($i['children']);
+        }
+
+        return collect($data);
     }
 
     public static function getAdminNavigation($adminMenus)
@@ -58,23 +80,26 @@ class MenuHelper
             $icon = data_get($i, 'data.icon', '');
             $url = data_get($i, 'data.url', '');
 
-            if ($i['type'] === Tool::getIdentifier() && $url) return TopLevelResource::make([
-                'label' => $i['name'],
-            ])->linkToResource(RawResource::make([
-                'target' => '_self',
-                'path' => $url,
-            ]))->icon($icon);
-
+            if ($i['type'] === Tool::getIdentifier() && $url) {
+                return TopLevelResource::make([
+                    'label' => $i['name'],
+                ])->linkToResource(RawResource::make([
+                    'target' => '_self',
+                    'path' => $url,
+                ]))->icon($icon);
+            };
 
             $resources = $i['children']->whereIn('type', [InternalUrl::getIdentifier(), MenuItemStaticURLType::getIdentifier(), Resource::getIdentifier(), Tool::getIdentifier()])->where('enabled', true)->map(function ($v) {
                 $url = data_get($v, 'data.url', '');
                 $icon = data_get($v, 'data.icon', '');
 
-                if ($v['type'] === Tool::getIdentifier()) return InternalLink::make([
-                    'label' => $v['name'],
-                    'target' => '_self',
-                    'path' => $url,
-                ])->icon($icon);
+                if ($v['type'] === Tool::getIdentifier()) {
+                    return InternalLink::make([
+                        'label' => $v['name'],
+                        'target' => '_self',
+                        'path' => $url,
+                    ])->icon($icon);
+                }
 
                 if ($v['type'] === InternalUrl::getIdentifier()) return InternalLink::make([
                     'label' => $v['name'],
@@ -104,8 +129,9 @@ class MenuHelper
     }
 
     public static function getSidebarTools(){
-        $menuTools = MenuHelper::getMenuTools(MenuHelper::getAdminMenus());
-        return collect(\Laravel\Nova\Nova::availableTools(request()))->filter(fn($i) => !in_array(get_class($i), $menuTools));
+        $menuTools = collect(MenuHelper::getMenuTools(MenuHelper::getAdminMenus()))->map(fn($t) => get_class($t))->all();
+        $novaTools = \Laravel\Nova\Nova::availableTools(request());
+        return collect($novaTools)->filter(fn($i) => !in_array(get_class($i), $menuTools));
     }
 
 }

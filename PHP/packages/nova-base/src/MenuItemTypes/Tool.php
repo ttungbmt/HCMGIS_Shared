@@ -18,20 +18,45 @@ class Tool extends MenuItemSelectType
 
     public static function getOptions($locale): array
     {
-        $tools = [
-            \Mastani\NovaPasswordReset\NovaPasswordReset::class,
-            \ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs::class,
-            \Bolechen\NovaActivitylog\NovaActivitylog::class,
-            \KABBOUCHI\LogsTool\LogsTool::class,
-            \Spatie\BackupTool\BackupTool::class,
-            \Sbine\RouteViewer\RouteViewer::class,
-            \BinaryBuilds\NovaAdvancedCommandRunner\CommandRunner::class,
-            \Infinety\Filemanager\FilemanagerTool::class,
-            \OptimistDigital\MenuBuilder\MenuBuilder::class,
-            \Larabase\NovaPage\NovaPage::class
-        ];
+        $tools = array_keys(self::mappingTools());
 
         return array_combine($tools, $tools);
+    }
+
+    public static function mappingTools(){
+        return [
+            \Mastani\NovaPasswordReset\NovaPasswordReset::class => [
+                'url' => '/nova-password-reset',
+                'ability' => 'users.reset-password'
+            ],
+            \ChrisWare\NovaBreadcrumbs\NovaBreadcrumbs::class => [
+                'ability' => 'breadcumbs'
+            ],
+            \Bolechen\NovaActivitylog\NovaActivitylog::class => [
+                'url' => '/resources/nova-activity-log',
+                'ability' => 'activity-log'
+            ],
+
+            \Spatie\BackupTool\BackupTool::class => [
+                'url' => '',
+                'ability' => '/backups'
+            ],
+            \BinaryBuilds\NovaAdvancedCommandRunner\CommandRunner::class => [
+                'url' => '/nova-advanced-command-runner',
+                'ability' => 'command-runner'
+            ],
+            \Infinety\Filemanager\FilemanagerTool::class => [
+                'url' => '/nova-filemanager',
+                'ability' => 'file-manager'
+            ],
+            \OptimistDigital\MenuBuilder\MenuBuilder::class => [
+                'url' => '/resources/nova-menus',
+                'ability' => 'menu-builder'
+            ],
+            \Larabase\NovaPage\NovaPage::class => [],
+            \KABBOUCHI\LogsTool\LogsTool::class => [],
+            \Sbine\RouteViewer\RouteViewer::class => [],
+        ];
     }
 
     public static function getFields(): array
