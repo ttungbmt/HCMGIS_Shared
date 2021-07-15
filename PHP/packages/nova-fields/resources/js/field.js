@@ -27,5 +27,6 @@ Nova.booting((Vue, router, store) => {
     Vue.component('detail-html-field', require('./components/Form/HtmlField'));
     Vue.component('form-html-field', require('./components/Form/HtmlField'));
 
+    Vue.component('form-nova-address-field', require('./components/Form/AdressField'));
     Vue.component('response-excel-modal', require('./components/Modals/ResponseExcelModal'))
 })
