@@ -1,6 +1,6 @@
 {
   "name": "@ttungbmt/react-fancytree",
-  "version": "0.0.1+cb6f531d",
+  "version": "0.0.1",
   "description": "A React wrapper for the Fancy Tree library",
   "keywords": [
     "redux",
@@ -41,9 +41,11 @@
     "jquery-ui": "^1.12.1",
     "jquery.fancytree": "^2.38.0",
     "lodash": "^4.17.21",
+    "nanoid": "^3.1.23",
     "normalizr": "^3.6.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
+    "react-contexify": "^5.0.0",
     "react-dom": "^17.0.2",
     "unstated-next": "^1.1.0",
     "use-immer": "^0.5.1"
@@ -57,5 +59,8 @@
     "access": "public"
   },
   "amdName": "ReactFancytree",
-  "yalcSig": "cb6f531d86fa1d1caa716bd7ec927b34"
+  "yalcSig": "cb6f531d86fa1d1caa716bd7ec927b34",
+  "devDependencies": {
+    "microbundle": "^0.13.3"
+  }
 }

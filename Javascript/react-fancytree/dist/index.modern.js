@@ -1,2 +1,297 @@
-import e,{useState as t,useCallback as r,memo as i,useRef as l,useEffect as n}from"react";import a from"clsx";import o,{mapValues as s,mapKeys as d,keys as c}from"lodash";import p from"jquery";import"jquery-ui";import"jquery.fancytree";import"jquery.fancytree/dist/modules/jquery.fancytree.filter";import"jquery.fancytree/dist/modules/jquery.fancytree.glyph";import u from"constate";import{useImmerReducer as m}from"use-immer";import"immer";import{toTree as f}from"@ttungbmt/tree-js";function y(){return(y=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var i in r)Object.prototype.hasOwnProperty.call(r,i)&&(e[i]=r[i])}return e}).apply(this,arguments)}function h(e,t){if(null==e)return{};var r,i,l={},n=Object.keys(e);for(i=0;i<n.length;i++)t.indexOf(r=n[i])>=0||(l[r]=e[r]);return l}const g={loading:!1,ids:[],entities:{}},x={setLoading:(e,{payload:t})=>e.loading=t,setAll:(e,{payload:t})=>{e.entities=d(t,"id"),(e=>{e.ids=c(e.entities)})(e)},select:(e,{payload:t})=>{t.ids.map(r=>e.entities[r].selected=t.selected)},selectOne:(e,{payload:{ids:t,selected:r,siblingIds:i}})=>{i.map(t=>e.entities[t].selected=!r),t.map(t=>e.entities[t].selected=r)},setExpand:(e,{payload:t})=>{e.entities[t]&&(e.entities[t].expanded=!0)},setCollapse:(e,{payload:t})=>{e.entities[t]&&(e.entities[t].expanded=!1)}},v=(e,t)=>{x[t.type](e,t)},[b,E]=u(function(){const[e,i]=m(v,g),[l,n]=t(void 0),a=r(()=>y({},s(x,(e,t)=>e=>i({type:t,payload:e})),{expandAll:()=>l.expandAll(),collapseAll:()=>l.expandAll(!1),toggleExpandAll:()=>l.visit(e=>e.toggleExpanded())}),[l]);return y({},a(),{tree:l,setTree:n,dispatch:i,source:f(e.ids.map(t=>e.entities[t]))})}),j=["blurTree","create","init","focusTree","restore","activate","beforeActivate","beforeExpand","beforeSelect","blur","click","collapse","createNode","dblclick","deactivate","expand","focus","keydown","keypress","lazyLoad","loadChildren","loadError","postProcess","modifyChild","renderNode","renderTitle","select"],A=(t,r)=>{if(o.isArray(t))return t.map((e,t)=>A(e,t+1));const{children:i,tooltip:l,title:n,data:s={}}=t,d=h(t,["children","tooltip","title","count","data"]),c=o.isNil(d.folder)?o.isArray(i)&&!o.isEmpty(i):d.folder;return e.createElement("li",{key:r,id:"ft"+r,title:l,className:a("relative",{folder:c}),"data-json":JSON.stringify(y({},d,s))},n,o.isArray(i)?e.createElement("ul",null,i.map((e,t)=>A(e,r+"."+(t+1)))):null)};function k(t){let{id:r,style:i,className:s,children:d,source:c}=t,u=h(t,["id","style","className","children","source"]);const m=l(null);return function(e,t){const{setTree:r}=E(),i=o.omit(t.options,j)||{};n(()=>{if(e.current){let l=(e=>o.chain(j).mapKeys(e=>e).mapValues(t=>(...r)=>{let i=`on${o.upperFirst(t)}`;e[i]&&e[i](...r)}).value())(t);p(e.current).fancytree(y({},l,i,{renderNode:function(e,{node:t}){let r=p(t.span).find(".label-feature-count"),i=t.data.count;i&&!r.length&&p(t.span).append(p(`<div class="label-feature-count">${i}</div>`))}})),r(p.ui.fancytree.getTree(e.current))}},[])}(m,u),e.createElement("div",{id:r,className:a(s),style:i,ref:m},d||e.createElement("ul",{style:{display:"none"}},A(c)))}k.defaultProps={options:{checkbox:!0,selectMode:3,quicksearch:!0,icon:!0,clickFolderMode:3,checkboxAutoHide:!1,disabled:!1,wide:{iconWidth:"3em",iconSpacing:"0.5em",labelSpacing:"0.1em",levelOfs:"1.5em"},filter:{autoApply:!0,autoExpand:!1,counter:!0,fuzzy:!1,hideExpandedCounter:!0,hideExpanders:!1,highlight:!0,leavesOnly:!1,nodata:!0,mode:"dimm"},childcounter:{deep:!0,hideZeros:!0,hideExpanded:!0},extensions:["filter"]}};var N=i(k);const O=e=>{if(e.isFolder()){let t=[];return e.visit(e=>{!e.isFolder()&&t.push(e)}),t}return[e]};export{N as FancyTree,b as TreeProvider,O as getToggleFiles,E as useTreeContext};
+import React, { useState, useCallback, memo, useRef, useEffect } from 'react';
+import clsx from 'clsx';
+import _, { mapValues, mapKeys, keys } from 'lodash';
+import $ from 'jquery';
+import 'jquery-ui';
+import 'jquery.fancytree';
+import 'jquery.fancytree/dist/modules/jquery.fancytree.filter';
+import 'jquery.fancytree/dist/modules/jquery.fancytree.glyph';
+import constate from 'constate';
+import { useImmerReducer } from 'use-immer';
+import 'immer';
+import { toTree } from '@ttungbmt/tree-js';
+import 'nanoid';
+import { useContextMenu, Menu, Item, contextMenu } from 'react-contexify';
+import 'react-contexify/dist/ReactContexify.css';
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+const initialState = {
+  loading: false,
+  ids: [],
+  entities: {}
+};
+
+const updateIds = state => void (state.ids = keys(state.entities));
+
+const caseReducers = {
+  setLoading: (state, {
+    payload
+  }) => state.loading = payload,
+  setAll: (state, {
+    payload
+  }) => {
+    state.entities = mapKeys(payload, 'id');
+    updateIds(state);
+  },
+  select: (state, {
+    payload
+  }) => {
+    payload.ids.map(id => state.entities[id].selected = payload.selected);
+  },
+  selectOne: (state, {
+    payload: {
+      ids,
+      selected,
+      siblingIds
+    }
+  }) => {
+    siblingIds.map(id => state.entities[id].selected = !selected);
+    ids.map(id => state.entities[id].selected = selected);
+  },
+  setExpand: (state, {
+    payload: id
+  }) => {
+    if (state.entities[id]) state.entities[id].expanded = true;
+  },
+  setCollapse: (state, {
+    payload: id
+  }) => {
+    if (state.entities[id]) state.entities[id].expanded = false;
+  }
+};
+
+const reducer = (draft, action) => void caseReducers[action.type](draft, action);
+
+function useTree() {
+  const [state, dispatch] = useImmerReducer(reducer, initialState);
+  const [tree, setTree] = useState(undefined);
+  const actions = useCallback(() => _extends({}, mapValues(caseReducers, (action, type) => payload => dispatch({
+    type,
+    payload
+  })), {
+    expandAll: () => tree.expandAll(),
+    collapseAll: () => tree.expandAll(false),
+    toggleExpandAll: () => tree.visit(node => node.toggleExpanded())
+  }), [tree]);
+  return _extends({}, actions(), {
+    tree,
+    setTree,
+    dispatch,
+    source: toTree(state.ids.map(id => state.entities[id]))
+  });
+}
+
+const [TreeProvider, useTreeContext] = constate(useTree);
+
+const _excluded = ["children", "tooltip", "title", "count", "data"],
+      _excluded2 = ["id", "style", "className", "children", "source", "onItemClick"];
+const events = ['blurTree', 'create', 'init', 'focusTree', 'restore', 'activate', 'beforeActivate', 'beforeExpand', 'beforeSelect', 'blur', 'click', 'collapse', 'createNode', 'dblclick', 'deactivate', 'expand', 'focus', 'keydown', 'keypress', 'lazyLoad', 'loadChildren', 'loadError', 'postProcess', 'modifyChild', 'renderNode', 'renderTitle', 'select'];
+
+const toEventFuncs = props => _.chain(events).mapKeys(n => n).mapValues(n => (...args) => {
+  let eventName = `on${_.upperFirst(n)}`;
+  props[eventName] && props[eventName](...args);
+}).value();
+
+function useTreeElement(treeRef, props) {
+  const {
+    setTree
+  } = useTreeContext();
+  const options = _.omit(props.options, events) || {};
+  useEffect(() => {
+
+    if (treeRef.current) {
+      let eventFns = toEventFuncs(props);
+      $(treeRef.current).fancytree(_extends({}, eventFns, options, {
+        renderNode: function (event, {
+          node
+        }) {
+          let $el = $(node.span).find('.label-feature-count'),
+              count = node.data.count;
+
+          if (count && !$el.length) {
+            $(node.span).append($(`<div class="label-feature-count">${count}</div>`));
+          }
+
+          $(node.span).find('.fancytree-title').contextmenu(e => {
+            contextMenu.show({
+              id: MENU_ID,
+              event: e,
+              props: _extends({}, node.data, _.pick(node, ['title', 'type']))
+            });
+          });
+        }
+      }));
+      setTree($.ui.fancytree.getTree(treeRef.current));
+    }
+  }, []);
+}
+
+const renderTree = (nodes, key) => {
+  if (_.isArray(nodes)) return nodes.map((node, key) => renderTree(node, key + 1));
+
+  const {
+    children,
+    tooltip,
+    title,
+    data = {}
+  } = nodes,
+        rest = _objectWithoutPropertiesLoose(nodes, _excluded);
+
+  const folder = _.isNil(rest.folder) ? _.isArray(children) && !_.isEmpty(children) : rest.folder;
+  return /*#__PURE__*/React.createElement("li", {
+    key: key,
+    id: 'ft' + key,
+    title: tooltip,
+    className: clsx('relative', {
+      folder
+    }),
+    "data-json": JSON.stringify(_extends({}, rest, data))
+  }, title, _.isArray(children) ? /*#__PURE__*/React.createElement("ul", null, children.map((node1, key1) => renderTree(node1, key + '.' + (key1 + 1)))) : null);
+};
+
+const MENU_ID = "layers";
+
+function FancyTree(_ref) {
+  let {
+    id,
+    style,
+    className,
+    children,
+    source,
+    onItemClick
+  } = _ref,
+      props = _objectWithoutPropertiesLoose(_ref, _excluded2);
+
+  const treeRef = useRef(null);
+  const {
+    show,
+    hideAll
+  } = useContextMenu({
+    id: MENU_ID
+  });
+  useTreeElement(treeRef, _extends({}, props, {
+    show
+  }));
+  return /*#__PURE__*/React.createElement("div", {
+    id: id,
+    className: clsx(className),
+    style: style,
+    ref: treeRef
+  }, children ? children : /*#__PURE__*/React.createElement("ul", {
+    style: {
+      display: 'none'
+    }
+  }, renderTree(source)), /*#__PURE__*/React.createElement(Menu, {
+    id: MENU_ID
+  }, /*#__PURE__*/React.createElement(Item, {
+    id: "act-edit",
+    onClick: onItemClick
+  }, "T\xF9y ch\u1EC9nh")));
+}
+
+FancyTree.defaultProps = {
+  options: {
+    checkbox: true,
+    // Show check boxes
+    selectMode: 3,
+    // 1:single, 2:multi, 3:multi-hier
+    quicksearch: true,
+    // Navigate to next node by typing the first letters
+    icon: true,
+    // Display node icons
+    clickFolderMode: 3,
+    // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+    checkboxAutoHide: false,
+    // Display check boxes on hover only
+    disabled: false,
+    // Disable control
+    wide: {
+      iconWidth: '3em',
+      // Adjust this if @fancy-icon-width != "16px"
+      iconSpacing: '0.5em',
+      // Adjust this if @fancy-icon-spacing != "3px"
+      labelSpacing: '0.1em',
+      // Adjust this if padding between icon and label != "3px"
+      levelOfs: '1.5em' // Adjust this if ul padding != "16px"
+
+    },
+    filter: {
+      autoApply: true,
+      // Re-apply last filter if lazy data is loaded
+      autoExpand: false,
+      // Expand all branches that contain matches while filtered
+      counter: true,
+      // Show a badge with number of matching child nodes near parent icons
+      fuzzy: false,
+      // Match single characters in order, e.g. 'fb' will match 'FooBar'
+      hideExpandedCounter: true,
+      // Hide counter badge if parent is expanded
+      hideExpanders: false,
+      // Hide expanders if all child nodes are hidden by filter
+      highlight: true,
+      // Highlight matches by wrapping inside <mark> tags
+      leavesOnly: false,
+      // Match end nodes only
+      nodata: true,
+      // Display a 'no data' status node if result is empty
+      mode: 'dimm' // Grayout unmatched nodes (pass "hide" to remove unmatched node instead)
+
+    },
+    childcounter: {
+      deep: true,
+      hideZeros: true,
+      hideExpanded: true
+    },
+    extensions: ['filter' // 'childcounter'
+    ]
+  },
+  onItemClick: () => {}
+};
+var FancyTree$1 = memo(FancyTree);
+
+const getToggleFiles = node => {
+  if (node.isFolder()) {
+    let children = [];
+    node.visit(child => {
+      !child.isFolder() && children.push(child);
+    });
+    return children;
+  }
+
+  return [node];
+};
+
+export { FancyTree$1 as FancyTree, TreeProvider, getToggleFiles, useTreeContext };
 //# sourceMappingURL=index.modern.js.map
