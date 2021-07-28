@@ -2,14 +2,19 @@
 namespace Larabase\Nova\Filters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class DateRangeFilter extends \Ampeco\Filters\DateRangeFilter
 {
     public $attribute;
 
-    public function __construct()
+    public function __construct($name = null, $attribute = null)
     {
+        $this->name = $name ?? $this->name;
+        $this->attribute = $attribute ?? $this->attribute ?? str_replace(' ', '_', Str::lower($this->name()));
+
         $this->placeholder(__('Choose date'));
+        $this->dateFormat('d/m/Y');
     }
 
     public function setName($name){
