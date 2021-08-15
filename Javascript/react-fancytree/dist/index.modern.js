@@ -1,6 +1,6 @@
 import React, { useState, useCallback, memo, useRef, useEffect } from 'react';
 import clsx from 'clsx';
-import _, { mapValues, mapKeys, keys } from 'lodash';
+import _, { mapValues, mapKeys, keys, map } from 'lodash';
 import $ from 'jquery';
 import 'jquery-ui';
 import 'jquery.fancytree';
@@ -10,7 +10,6 @@ import constate from 'constate';
 import { useImmerReducer } from 'use-immer';
 import 'immer';
 import { toTree } from '@ttungbmt/tree-js';
-import 'nanoid';
 import { useContextMenu, Menu, Item, contextMenu } from 'react-contexify';
 import 'react-contexify/dist/ReactContexify.css';
 
@@ -62,7 +61,10 @@ const caseReducers = {
   setAll: (state, {
     payload
   }) => {
-    state.entities = mapKeys(payload, 'id');
+    state.entities = mapKeys(payload.map(v => {
+      if (!v.folder && !v.icon) v.icon = false;
+      return v;
+    }), 'id');
     updateIds(state);
   },
   select: (state, {
@@ -89,6 +91,12 @@ const caseReducers = {
     payload: id
   }) => {
     if (state.entities[id]) state.entities[id].expanded = false;
+  },
+  updateItem: (state, {
+    payload
+  }) => {
+    let entity = state.entities[payload.id];
+    map(payload.changes, (v, k) => entity[k] = v);
   }
 };
 
@@ -115,8 +123,7 @@ function useTree() {
 
 const [TreeProvider, useTreeContext] = constate(useTree);
 
-const _excluded = ["children", "tooltip", "title", "count", "data"],
-      _excluded2 = ["id", "style", "className", "children", "source", "onItemClick"];
+const _excluded2 = ["id", "style", "className", "children", "source", "onItemClick"];
 const events = ['blurTree', 'create', 'init', 'focusTree', 'restore', 'activate', 'beforeActivate', 'beforeExpand', 'beforeSelect', 'blur', 'click', 'collapse', 'createNode', 'dblclick', 'deactivate', 'expand', 'focus', 'keydown', 'keypress', 'lazyLoad', 'loadChildren', 'loadError', 'postProcess', 'modifyChild', 'renderNode', 'renderTitle', 'select'];
 
 const toEventFuncs = props => _.chain(events).mapKeys(n => n).mapValues(n => (...args) => {
@@ -126,6 +133,7 @@ const toEventFuncs = props => _.chain(events).mapKeys(n => n).mapValues(n => (..
 
 function useTreeElement(treeRef, props) {
   const {
+    tree,
     setTree
   } = useTreeContext();
   const options = _.omit(props.options, events) || {};
@@ -134,6 +142,7 @@ function useTreeElement(treeRef, props) {
     if (treeRef.current) {
       let eventFns = toEventFuncs(props);
       $(treeRef.current).fancytree(_extends({}, eventFns, options, {
+        source: props.source,
         renderNode: function (event, {
           node
         }) {
@@ -155,31 +164,15 @@ function useTreeElement(treeRef, props) {
       }));
       setTree($.ui.fancytree.getTree(treeRef.current));
     }
+
+    return () => {
+      if (!treeRef.current) {
+        tree && tree.destroy();
+        setTree(null);
+      }
+    };
   }, []);
 }
-
-const renderTree = (nodes, key) => {
-  if (_.isArray(nodes)) return nodes.map((node, key) => renderTree(node, key + 1));
-
-  const {
-    children,
-    tooltip,
-    title,
-    data = {}
-  } = nodes,
-        rest = _objectWithoutPropertiesLoose(nodes, _excluded);
-
-  const folder = _.isNil(rest.folder) ? _.isArray(children) && !_.isEmpty(children) : rest.folder;
-  return /*#__PURE__*/React.createElement("li", {
-    key: key,
-    id: 'ft' + key,
-    title: tooltip,
-    className: clsx('relative', {
-      folder
-    }),
-    "data-json": JSON.stringify(_extends({}, rest, data))
-  }, title, _.isArray(children) ? /*#__PURE__*/React.createElement("ul", null, children.map((node1, key1) => renderTree(node1, key + '.' + (key1 + 1)))) : null);
-};
 
 const MENU_ID = "layers";
 
@@ -202,6 +195,7 @@ function FancyTree(_ref) {
     id: MENU_ID
   });
   useTreeElement(treeRef, _extends({}, props, {
+    source,
     show
   }));
   return /*#__PURE__*/React.createElement("div", {
@@ -213,7 +207,7 @@ function FancyTree(_ref) {
     style: {
       display: 'none'
     }
-  }, renderTree(source)), /*#__PURE__*/React.createElement(Menu, {
+  }), /*#__PURE__*/React.createElement(Menu, {
     id: MENU_ID
   }, /*#__PURE__*/React.createElement(Item, {
     id: "act-edit",

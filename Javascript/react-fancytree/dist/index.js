@@ -10,7 +10,6 @@ var constate = require('constate');
 var useImmer = require('use-immer');
 require('immer');
 var treeJs = require('@ttungbmt/tree-js');
-require('nanoid');
 var reactContexify = require('react-contexify');
 require('react-contexify/dist/ReactContexify.css');
 
@@ -72,7 +71,10 @@ var caseReducers = {
   },
   setAll: function setAll(state, _ref2) {
     var payload = _ref2.payload;
-    state.entities = _.mapKeys(payload, 'id');
+    state.entities = _.mapKeys(payload.map(function (v) {
+      if (!v.folder && !v.icon) v.icon = false;
+      return v;
+    }), 'id');
     updateIds(state);
   },
   select: function select(state, _ref3) {
@@ -100,6 +102,13 @@ var caseReducers = {
   setCollapse: function setCollapse(state, _ref6) {
     var id = _ref6.payload;
     if (state.entities[id]) state.entities[id].expanded = false;
+  },
+  updateItem: function updateItem(state, _ref7) {
+    var payload = _ref7.payload;
+    var entity = state.entities[payload.id];
+    _.map(payload.changes, function (v, k) {
+      return entity[k] = v;
+    });
   }
 };
 
@@ -152,8 +161,7 @@ var _constate = constate__default['default'](useTree),
     TreeProvider = _constate[0],
     useTreeContext = _constate[1];
 
-var _excluded = ["children", "tooltip", "title", "count", "data"],
-    _excluded2 = ["id", "style", "className", "children", "source", "onItemClick"];
+var _excluded2 = ["id", "style", "className", "children", "source", "onItemClick"];
 var events = ['blurTree', 'create', 'init', 'focusTree', 'restore', 'activate', 'beforeActivate', 'beforeExpand', 'beforeSelect', 'blur', 'click', 'collapse', 'createNode', 'dblclick', 'deactivate', 'expand', 'focus', 'keydown', 'keypress', 'lazyLoad', 'loadChildren', 'loadError', 'postProcess', 'modifyChild', 'renderNode', 'renderTitle', 'select'];
 
 var toEventFuncs = function toEventFuncs(props) {
@@ -170,6 +178,7 @@ var toEventFuncs = function toEventFuncs(props) {
 
 function useTreeElement(treeRef, props) {
   var _useTreeContext = useTreeContext(),
+      tree = _useTreeContext.tree,
       setTree = _useTreeContext.setTree;
 
   var options = ___default['default'].omit(props.options, events) || {};
@@ -178,6 +187,7 @@ function useTreeElement(treeRef, props) {
     if (treeRef.current) {
       var eventFns = toEventFuncs(props);
       $__default['default'](treeRef.current).fancytree(_extends({}, eventFns, options, {
+        source: props.source,
         renderNode: function renderNode(event, _ref) {
           var node = _ref.node;
           var $el = $__default['default'](node.span).find('.label-feature-count'),
@@ -198,34 +208,15 @@ function useTreeElement(treeRef, props) {
       }));
       setTree($__default['default'].ui.fancytree.getTree(treeRef.current));
     }
+
+    return function () {
+      if (!treeRef.current) {
+        tree && tree.destroy();
+        setTree(null);
+      }
+    };
   }, []);
 }
-
-var renderTree = function renderTree(nodes, key) {
-  if (___default['default'].isArray(nodes)) return nodes.map(function (node, key) {
-    return renderTree(node, key + 1);
-  });
-
-  var children = nodes.children,
-      tooltip = nodes.tooltip,
-      title = nodes.title,
-      _nodes$data = nodes.data,
-      data = _nodes$data === void 0 ? {} : _nodes$data,
-      rest = _objectWithoutPropertiesLoose(nodes, _excluded);
-
-  var folder = ___default['default'].isNil(rest.folder) ? ___default['default'].isArray(children) && !___default['default'].isEmpty(children) : rest.folder;
-  return /*#__PURE__*/React__default['default'].createElement("li", {
-    key: key,
-    id: 'ft' + key,
-    title: tooltip,
-    className: clsx__default['default']('relative', {
-      folder: folder
-    }),
-    "data-json": JSON.stringify(_extends({}, rest, data))
-  }, title, ___default['default'].isArray(children) ? /*#__PURE__*/React__default['default'].createElement("ul", null, children.map(function (node1, key1) {
-    return renderTree(node1, key + '.' + (key1 + 1));
-  })) : null);
-};
 
 var MENU_ID = "layers";
 
@@ -246,6 +237,7 @@ function FancyTree(_ref2) {
       show = _useContextMenu.show;
 
   useTreeElement(treeRef, _extends({}, props, {
+    source: source,
     show: show
   }));
   return /*#__PURE__*/React__default['default'].createElement("div", {
@@ -257,7 +249,7 @@ function FancyTree(_ref2) {
     style: {
       display: 'none'
     }
-  }, renderTree(source)), /*#__PURE__*/React__default['default'].createElement(reactContexify.Menu, {
+  }), /*#__PURE__*/React__default['default'].createElement(reactContexify.Menu, {
     id: MENU_ID
   }, /*#__PURE__*/React__default['default'].createElement(reactContexify.Item, {
     id: "act-edit",

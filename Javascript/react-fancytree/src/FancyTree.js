@@ -7,7 +7,6 @@ import 'jquery.fancytree'
 import 'jquery.fancytree/dist/modules/jquery.fancytree.filter'
 import 'jquery.fancytree/dist/modules/jquery.fancytree.glyph'
 import {useTreeContext} from './TreeContext';
-import {nanoid} from 'nanoid'
 import {useContextMenu, Menu, Item, Separator, contextMenu} from "react-contexify";
 import "react-contexify/dist/ReactContexify.css";
 
@@ -20,7 +19,7 @@ const toEventFuncs = (props) => _.chain(events).mapKeys((n) => n).mapValues((n) 
 
 
 function useTreeElement(treeRef, props) {
-    const {setTree} = useTreeContext()
+    const {tree, setTree} = useTreeContext()
 
     const options = _.omit(props.options, events) || {};
     useEffect(() => {
@@ -32,7 +31,9 @@ function useTreeElement(treeRef, props) {
             $el = $(treeRef.current).fancytree({
                 ...eventFns,
                 ...options,
+                source: props.source,
                 renderNode: function (event, {node}) {
+
                     let $el = $(node.span).find('.label-feature-count'),
                         count = node.data.count
 
@@ -56,6 +57,13 @@ function useTreeElement(treeRef, props) {
             });
 
             setTree($.ui.fancytree.getTree(treeRef.current))
+        }
+
+        return () => {
+            if (!treeRef.current) {
+                tree && tree.destroy()
+                setTree(null)
+            }
         }
     }, []);
 }
@@ -93,7 +101,8 @@ function FancyTree({id, style, className, children, source, onItemClick, ...prop
         id: MENU_ID,
     });
 
-    useTreeElement(treeRef, {...props, show});
+    useTreeElement(treeRef, {...props, source, show});
+
 
     return (
         <div id={id} className={clsx(className)} style={style} ref={treeRef}>
@@ -101,7 +110,7 @@ function FancyTree({id, style, className, children, source, onItemClick, ...prop
                 children
             ) : (
                 <ul style={{display: 'none'}}>
-                    {renderTree(source)}
+                    {/*{renderTree(source)}*/}
                 </ul>
             )}
 

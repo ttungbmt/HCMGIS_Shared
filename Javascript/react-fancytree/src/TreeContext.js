@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import constate from 'constate';
 import { useImmerReducer } from 'use-immer';
-import { filter, includes, keys, map, mapKeys, mapValues, get } from 'lodash';
+import { filter, includes, keys, map, mapKeys, mapValues } from 'lodash';
 import {original} from "immer"
 import { toTree } from '@ttungbmt/tree-js';
 
@@ -16,7 +16,10 @@ const updateIds = state => void (state.ids = keys(state.entities))
 const caseReducers = {
 	setLoading: (state, { payload }) => state.loading = payload,
 	setAll: (state, { payload }) => {
-		state.entities = mapKeys(payload, 'id')
+		state.entities = mapKeys(payload.map(v => {
+			if(!v.folder && !v.icon) v.icon = false
+			return v
+		}), 'id')
 		updateIds(state)
 	},
 	select: (state, {payload}) => {
@@ -31,6 +34,10 @@ const caseReducers = {
 	},
 	setCollapse: (state, {payload: id}) => {
 		if(state.entities[id]) state.entities[id].expanded = false
+	},
+	updateItem: (state, {payload}) => {
+		let entity = state.entities[payload.id]
+		map(payload.changes, (v, k) => entity[k] = v)
 	}
 };
 
