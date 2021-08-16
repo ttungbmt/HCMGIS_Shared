@@ -71,12 +71,13 @@ class Import
         foreach ($rows as $k => $row) {
             $row = $row->toArray();
             if(empty($this->fields())){
-                foreach ($this->dates as $field){
-                    $row[$field] = to_date($row[$field]);
-                }
                 $values = $row;
             } else {
                 $values = $this->toValues($row, $this->fields())->all();
+            }
+
+            foreach ($this->dates as $field){
+                $values[$field] = to_date($values[$field]);
             }
 
             $model = isset($values['id']) && $values['id'] ? $this->modelClass::find($values['id']) : new $this->modelClass;
