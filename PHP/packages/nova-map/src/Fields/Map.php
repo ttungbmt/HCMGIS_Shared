@@ -370,15 +370,4 @@ class Map extends Field
     {
         return $this->withMeta([__FUNCTION__ => $geocodeOptions]);
     }
-
-//    public function googleKey() {
-//        return $this->withMeta([
-//            'googleKey' => config('nova.maps-address-field.key')
-//        ]);
-//    }
-//
-//    public function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
-//    {
-//        $model->setAttribute($attribute, json_decode($request->$attribute, true));
-//    }
 }

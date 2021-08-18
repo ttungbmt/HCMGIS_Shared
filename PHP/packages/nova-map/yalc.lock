@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@ttungbmt/leaflet-search": {
-      "signature": "ecd6c39e673597b8703ae72ed23fc0c8",
+      "signature": "20e44f4be0bcc9614eba87515cfd2124",
       "link": true
     },
     "@ttungbmt/vue-leaflet": {

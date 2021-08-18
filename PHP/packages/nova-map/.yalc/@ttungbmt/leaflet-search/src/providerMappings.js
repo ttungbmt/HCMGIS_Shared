@@ -12,6 +12,7 @@ import {
 import Map4DProvider from './providers/Map4DProvider'
 import GoogleProvider from './providers/GoogleProvider'
 import CocCocProvider from './providers/CocCocProvider'
+import HCMGISProvider from './providers/HCMGISProvider'
 
 export default {
     'algolia': AlgoliaProvider,
@@ -24,5 +25,6 @@ export default {
     'openstreetmap': OpenStreetMapProvider,
     'map4d': Map4DProvider,
     'cococ': CocCocProvider,
+    'hcmgis': HCMGISProvider,
 }
 
