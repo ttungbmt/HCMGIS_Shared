@@ -58,6 +58,13 @@ class Import
             }
 
             return [$f->attribute => $value];
+        })->mapWithKeys(function ($v, $k){
+            if(is_string($v)){
+                $v = trim($v);
+                $v = ($v == "") ? null : $v;
+            }
+
+            return [$k => $v];
         });
     }
 
