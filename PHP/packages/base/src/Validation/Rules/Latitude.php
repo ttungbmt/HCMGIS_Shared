@@ -16,7 +16,8 @@ class Latitude implements Rule
      */
     public function passes($attribute, $value)
     {
-        return preg_match('/^(\+|-)?(?:90(?:(?:\.0{1,15})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,15})?))$/', $value);
+        if(is_null($value)) return true;
+        return preg_match('/^(\+|-)?(?:90(?:(?:\.0{1,15})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,15})?))$/', trim($value));
     }
 
     /**
