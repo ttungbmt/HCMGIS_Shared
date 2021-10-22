@@ -102,6 +102,7 @@ class MapLayer extends Resource
 
 
             Integer::make('Count', 'data->count'),
+//            Text::make('BBox', 'data->bbox'),
 
             new Panel('Popup', [
                 Boolean::make('Enabled', 'popup_enabled')->resolveUsing(function ($value) {
@@ -140,6 +141,8 @@ class MapLayer extends Resource
                         Code::make('JSON', 'popup->jsonFields')->language('application/json')->json()
                     ])->dependsOn('popup->type', 'json'),
 
+                    Text::make('Info Url', 'popup->info_url'),
+
                     Code::make('Actions', 'popup->actions')->language('application/json')->resolveUsing(function ($value){
                         return json_decode($value) ? $value : null;
                     })->json(),
@@ -153,10 +156,6 @@ class MapLayer extends Resource
         return collect($keyValue)->map(fn($v, $k) => ['label' => $v, 'attribute' => $k])->values()->all();
     }
 
-//    public static function beforeSave(Request $request, $model)
-//    {
-//        dd($request->all(), $model);
-//    }
 
     /**
      * Get the cards available for the request.
