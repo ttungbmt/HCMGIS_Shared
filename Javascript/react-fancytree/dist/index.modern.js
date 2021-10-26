@@ -212,7 +212,10 @@ function FancyTree(_ref) {
   }, /*#__PURE__*/React.createElement(Item, {
     id: "act-edit",
     onClick: onItemClick
-  }, "T\xF9y ch\u1EC9nh")));
+  }, "Edit"), /*#__PURE__*/React.createElement(Item, {
+    id: "act-zoom",
+    onClick: onItemClick
+  }, "Zoom to layer")));
 }
 
 FancyTree.defaultProps = {

@@ -81,7 +81,7 @@ class Map extends Field
                     $data = null;
 
                     if(method_exists($model, 'getPostgisType')){
-                        $spatialType = $model->getPostgisType('geom')['type'];
+                        $spatialType = $model->getPostgisType($attribute)['type'];
                         if ($spatialType === 'Point' && $r->data && $r->data[0] && $r->data[1]) {
                             $data = new Point($r->data[0], $r->data[1]);
                         }
@@ -139,7 +139,7 @@ class Map extends Field
     {
         $geom = data_get($resource, str_replace('->', '.', $attribute));
         if(method_exists($resource, 'getPostgisType')){
-            $spatialType = $resource->getPostgisType('geom')['type'];
+            $spatialType = $resource->getPostgisType($attribute)['type'];
 
             $this->withMeta(['geomTypes' => [['type' => $spatialType, 'attribute' => $attribute]]]);
 

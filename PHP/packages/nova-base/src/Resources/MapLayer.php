@@ -102,7 +102,7 @@ class MapLayer extends Resource
 
 
             Integer::make('Count', 'data->count'),
-//            Text::make('BBox', 'data->bbox'),
+            Text::make('BBox', 'data->bbox')->hideFromIndex(),
 
             new Panel('Popup', [
                 Boolean::make('Enabled', 'popup_enabled')->resolveUsing(function ($value) {

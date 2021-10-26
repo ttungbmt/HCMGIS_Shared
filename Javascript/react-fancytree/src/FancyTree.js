@@ -116,7 +116,10 @@ function FancyTree({id, style, className, children, source, onItemClick, ...prop
 
             <Menu id={MENU_ID}>
                 <Item id="act-edit" onClick={onItemClick}>
-                    Tùy chỉnh
+                    Edit
+                </Item>
+                <Item id="act-zoom" onClick={onItemClick}>
+                    Zoom to layer
                 </Item>
             </Menu>
         </div>
@@ -165,7 +168,7 @@ FancyTree.defaultProps = {
             // 'childcounter'
         ]
     },
-    onItemClick: () => {}
+    onItemClick: () => {},
 };
 
 export default memo(FancyTree);

@@ -254,7 +254,10 @@ function FancyTree(_ref2) {
   }, /*#__PURE__*/React__default['default'].createElement(reactContexify.Item, {
     id: "act-edit",
     onClick: onItemClick
-  }, "T\xF9y ch\u1EC9nh")));
+  }, "Edit"), /*#__PURE__*/React__default['default'].createElement(reactContexify.Item, {
+    id: "act-zoom",
+    onClick: onItemClick
+  }, "Zoom to layer")));
 }
 
 FancyTree.defaultProps = {
