@@ -69,6 +69,7 @@ class MapService extends Resource
             Text::make(__('Url'), 'base_url')->displayUsing(function ($value){
                 return Str::startsWith($value, 'http') ? $value : url($value);
             })->rules('required')->hideFromIndex(),
+            Text::make(__('Proxy'), 'proxy')
         ];
     }
 
